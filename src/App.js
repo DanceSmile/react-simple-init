@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 import CommentApp  from "./pages/CommentApp"
 
 class App extends Component {

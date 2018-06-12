@@ -47,22 +47,21 @@ class Comment extends Component{
 
 class CommentInput extends Component{
 
+	handleClick(){
+
+		alert(1)
+
+	}
 	render(){
 		return (
-
-			<div > 
+			<div> 
 				  <input name="username" className="ui input" />
 				  <input name="content" />
+				  <button onClick={ this.handleClick } > button </button>
 			</div>
-
 		)
 	}
 }
-
-
-
-
-
 
 
 export default CommentApp;

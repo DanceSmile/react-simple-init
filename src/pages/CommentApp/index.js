@@ -1,30 +1,30 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 
 class CommentApp extends Component {
 
-	constructor(){
-		super()
-		this.state = {
-			comments:[]
-		}
-	}
+	
  
 	hanleSubmit(comment)
 	{
-		this.state.comments.push(comment)
-		this.setState(
-			{
-				comments:this.state.comments
-			}
-		)
+		this.props.addComment(comment)
 
 	}
 	render() {
+
 		return (
 		<div className='am-container' style={{'marginTop':"20px"}}>
 			<h3 style={{"textAlign":'center'}} > React评论留言</h3>
 			<hr data-am-widget="divider"  className="am-divider am-divider-default" />
-			<CommentList comments ={ this.state.comments } />
+			{
+				this.props.comments.length?
+				<CommentList comments ={ this.props.comments } />
+				:'暂没有评论'
+			}
+
+			<hr/>
+			
 			<CommentInput hanleSubmit = {this.hanleSubmit.bind(this)} />
 		</div>
 		);
@@ -66,7 +66,7 @@ class Comment extends Component{
 				<div className="am-comment-main">
 				<header className="am-comment-hd">
 					<div className="am-comment-meta">
-					<a href="#link-to-user" className="am-comment-author">{this.props.comment.usernmae}</a>
+					<a href="#link-to-user" className="am-comment-author">{this.props.comment.username}</a>
 					评论于
 					<time dateTime={"2013-07-27T04:54:29-07:00"} title="2013年7月27日 下午7:54 格林尼治标准时间+0800">2014-7-12 15:30</time>
 					</div>
@@ -149,4 +149,15 @@ class CommentInput extends Component{
 }
 
 
-export default CommentApp;
+export default connect(
+	state => ({
+	comments: state.comments
+	}),
+	dispatch => {
+		return {
+			addComment:(comment) => {
+				dispatch({"type":'add_comment',"comment":comment})
+			}
+		}
+	}
+)(CommentApp);
